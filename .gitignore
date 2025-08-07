@@ -1,0 +1,7 @@
+# Ignore exomoons virtual environment
+exomoons/
+
+# Ignore PyMultiNest virtual environment
+PyMultiNest/
+
+MultiNest/
