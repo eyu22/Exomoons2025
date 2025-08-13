@@ -5,7 +5,7 @@ program test_mandel
   integer, parameter :: n = 100
   real(8) :: z(n), flux(n)
   real(8) :: p, c1, c2
-  real(8) :: dz
+  real(8) :: dz, b0, range
   integer :: i
   integer :: ierr
 
@@ -17,10 +17,13 @@ program test_mandel
 
   ! Generate z values (impact parameter) around your b=0.274943
   ! Let's sample +/- 0.5 around b to see transit shape
-  dz = 1.0d0 / n
-  open(unit=10, file='lightcurve.txt', status='new', iostat=ierr)
+  ! Parameters
+  b0 = 0.274943d0   ! central impact parameter
+  range = 2.0d0     ! half-width of range around b0
+  dz = (2.0d0 * range) / n
+  open(unit=10, file='lightcurve.txt', status='replace', iostat=ierr)
   do i = 1, n
-    z(i) = 0.274943d0 - 0.5d0 + dz * i
+    z(i) = b0 - range + dz * (i - 1)
     call occultquad_wrapper(abs(z(i)), p, c1, c2, flux(i))
     print *, "z =", z(i), " flux =", flux(i)
     WRITE(10, *) 'This is a line of text.'
